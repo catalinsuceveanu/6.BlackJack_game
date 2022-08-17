@@ -10,6 +10,7 @@ def initiate_hand(amount):
         return True
     else:
         print("Ok, goodbye!")
+        return False
 
 
 def place_your_bet(amount):

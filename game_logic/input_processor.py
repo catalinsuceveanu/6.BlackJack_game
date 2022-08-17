@@ -19,7 +19,7 @@ def place_your_bet(amount):
         tries -= 1
         try:
             response = int(response)
-            if response <= 0:
+            if response < 1:
                 raise custom_errors.SubZeroBetError()
             elif response > amount:
                 raise custom_errors.BetHigherThanAmountError()
@@ -28,11 +28,22 @@ def place_your_bet(amount):
         except ValueError:
             print("Not valid, your bet has to be an integer.")
         except custom_errors.SubZeroBetError:
-            print("Not a valid bet, please place a bet higher than $0.")
+            print("Min bet is $1.")
         except custom_errors.BetHigherThanAmountError:
             print(f"Too high, you only have ${amount}.")
     print("Ran out of tries, restart the game to play again.")
 
 
-get_a_bet = place_your_bet(500)
-print("Your bet is", get_a_bet)
+def want_to_hit_or_stay():
+    stay_responses = ("stay", "Stay", "STAY", "s", "S")
+    hit_responses = ("hit", "Hit", "HIT", "h", "H")
+    tries = 5
+    while tries > 0:
+        response = input("Would you like to hit or stay? ")
+        if response in stay_responses:
+            return False
+        elif response in hit_responses:
+            return True
+        else:
+            print("Not a valid input, try again!")
+            tries -= 1

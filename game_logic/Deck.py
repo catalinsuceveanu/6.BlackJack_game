@@ -77,6 +77,7 @@ class Deck:
         random.shuffle(full_deck_list)
         self._curr_deck = full_deck_list
         self._curr_card_idx = 0
+        self._shuffle_card = Deck.insert_shuffle_card()
 
     def deal_a_card(self):
         curr_card = self.curr_deck[self.curr_card_idx]
@@ -99,6 +100,25 @@ class Deck:
     def curr_card_idx(self, value):
         self._curr_card_idx = value
 
+    @property
+    def shuffle_card(self):
+        return self.insert_shuffle_card
+
+    @shuffle_card.setter
+    def shuffle_card(self):
+        self._shuffle_card = Deck.insert_shuffle_card()
+
     def shuffle_the_deck(self):
         random.shuffle(self.curr_deck)
         self.curr_card_idx = 0
+        self.insert_shuffle_card()
+        print("\nThe deck has been shuffled!!\n")
+
+    @classmethod
+    def insert_shuffle_card(cls):
+        """In blackjack, the dealer after he shuffles the deck, inserts a plastic
+        divider inside the deck. This divider has the role to signal when it is time
+        to reshuffle the deck. Once the divider is reached the last hand is finished
+        and the deck is reshuffled."""
+
+        cls.shuffle_card = random.randint(0, 42)

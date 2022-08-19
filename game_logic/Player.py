@@ -36,20 +36,26 @@ class Player:
         new_cards.append(card)
         self.curr_deal = new_cards
 
-    def has_won(self):
+    def has_won(self, dealer):
         self.cash += self.curr_bet * 2
         self.curr_bet = 0
         self.curr_deal.clear()
+        dealer.reset_curr_deal()
 
-    def has_lost(self):
+    def has_lost(self, dealer):
         self.curr_bet = 0
         self.curr_deal.clear()
+        dealer.reset_curr_deal()
 
-    def its_a_draw(self):
+    def has_tied(self, dealer):
         self.cash += self.curr_bet
         self.curr_deal.clear()
+        dealer.reset_curr_deal()
 
-    def has_blackjack(self):
-        self.cash += int(self.curr_bet * Player.BLACKJACK_FACTOR)
+    def has_blackjack(self, dealer):
+        the_won_cash = self.curr_bet * Player.BLACKJACK_FACTOR
+        self.cash += int(the_won_cash)
         self.curr_bet = 0
         self.curr_deal.clear()
+        dealer.reset_curr_deal()
+        return the_won_cash

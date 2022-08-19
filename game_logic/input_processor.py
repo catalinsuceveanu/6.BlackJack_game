@@ -3,7 +3,7 @@ import custom_errors
 
 def initiate_hand(amount):
     response = input(
-        f"You are starting with ${amount}. Would you like to play a hand? "
+        f"\nYou are starting with ${amount}. Would you like to play a hand? "
     )
     acceptable_responses = ("yes", "Yes", "YES", "y", "Y")
     if response in acceptable_responses:
@@ -35,7 +35,7 @@ def place_your_bet(amount):
     print("Ran out of tries, restart the game to play again.")
 
 
-def want_to_hit_or_stay():
+def wants_to_hit():
     stay_responses = ("stay", "Stay", "STAY", "s", "S")
     hit_responses = ("hit", "Hit", "HIT", "h", "H")
     tries = 5

@@ -18,50 +18,40 @@ def main():
         if has_blackjack(player):
             print_curr_deal(dealer)
             if deal_total(dealer) != 21:
-                print(f"Blackjack! You win ${player.has_blackjack(dealer)} :)")
+                player.has_blackjack(dealer)
             else:
-                print(f"You tie. Your bet of ${player.curr_bet} has been returned.")
                 player.its_a_draw(dealer)
 
         else:
-            curr_deal_total = deal_total(player)
+            curr_player_deal_total = deal_total(player)
             player_wants_to_hit = input_processor.wants_to_hit()
-            while curr_deal_total <= 21 and player_wants_to_hit == True:
+            while curr_player_deal_total <= 21 and player_wants_to_hit == True:
                 player.add_card_to_curr_deal(deck.deal_a_card())
                 print_the_new_dealt_card(player)
-                print_curr_deal(player)
-                curr_deal_total = deal_total(player)
-                if curr_deal_total > 21:
+                curr_player_deal_total = deal_total(player)
+                if curr_player_deal_total > 21:
                     break
                 player_wants_to_hit = input_processor.wants_to_hit()
-            if curr_deal_total > 21:
-                print(f"Your hand value is over 21 and you lose ${player.curr_bet} :(")
+            if curr_player_deal_total > 21:
+                print(f"Your hand value is over 21.")
                 player.has_lost(dealer)
             else:
                 dealer_total = deal_total(dealer)
                 print_curr_deal(dealer)
-                while (
-                    dealer_total < Dealer.STAY_SUM and dealer_total <= curr_deal_total
-                ):
+                while dealer_total < Dealer.STAY_SUM:
                     dealer.add_card_to_curr_deal(deck.deal_a_card())
                     print_the_new_dealt_card(dealer)
-                    print_curr_deal(dealer)
                     dealer_total = deal_total(dealer)
                 if dealer_total > 21:
-                    print(f"The dealer busts, you win ${player.curr_bet*2} :)")
+                    print(f"The dealer busts")
                     player.has_won(dealer)
                 else:
                     print("The dealer stays.")
-                    if curr_deal_total > dealer_total:
-                        print(f"You win ${player.curr_bet*2}!")
+                    if curr_player_deal_total > dealer_total:
                         player.has_won(dealer)
-                    elif curr_deal_total == dealer_total:
-                        print(
-                            f"You tie. Your bet of ${player.curr_bet} has been returned."
-                        )
+                    elif curr_player_deal_total == dealer_total:
                         player.has_tied(dealer)
                     else:
-                        print(f"The dealer wins, you lose ${player.curr_bet}")
                         player.has_lost(dealer)
         if deck.curr_card_idx >= deck.shuffle_card:
             deck.shuffle_the_deck()
@@ -69,10 +59,11 @@ def main():
 
 
 def deal_cards(player, dealer, deck):
-    player.add_card_to_curr_deal(deck.deal_a_card())
-    dealer.add_card_to_curr_deal(deck.deal_a_card())
-    player.add_card_to_curr_deal(deck.deal_a_card())
-    dealer.add_card_to_curr_deal(deck.deal_a_card())
+    for i in range(1, 5):
+        if i % 2 == 0:
+            player.add_card_to_curr_deal(deck.deal_a_card())
+        else:
+            dealer.add_card_to_curr_deal(deck.deal_a_card())
 
 
 def print_initial_deal(player, dealer):
@@ -102,8 +93,10 @@ def print_the_new_dealt_card(entity):
     last_card_string = last_card[1] + last_card[0]
     if isinstance(entity, Player):
         print(f"You are dealt: {last_card_string}")
+        print_curr_deal(entity)
     elif isinstance(entity, Dealer):
         print(f"Dealer hits, and is dealt: {last_card_string}")
+        print_curr_deal(entity)
 
 
 def has_blackjack(player):

@@ -37,28 +37,28 @@ class Player:
         self.curr_deal = new_cards
 
     def has_won(self, dealer):
+        print(f"You win ${self.curr_bet*2}!")
         self.cash += self.curr_bet * 2
         self.curr_bet = 0
         self.curr_deal.clear()
         dealer.reset_curr_deal()
-        print(f"You win ${self.curr_bet*2}!")
 
     def has_lost(self, dealer):
+        print(f"The dealer wins, you lose ${self.curr_bet}")
         self.curr_bet = 0
         self.curr_deal.clear()
         dealer.reset_curr_deal()
-        print(f"The dealer wins, you lose ${self.curr_bet}")
 
     def has_tied(self, dealer):
+        print(f"You tie. Your bet of ${self.curr_bet} has been returned.")
         self.cash += self.curr_bet
         self.curr_deal.clear()
         dealer.reset_curr_deal()
-        print(f"You tie. Your bet of ${self.curr_bet} has been returned.")
 
     def has_blackjack(self, dealer):
         the_won_cash = self.curr_bet * Player.BLACKJACK_FACTOR
+        print(f"Blackjack! You win ${the_won_cash} :)")
         self.cash += int(the_won_cash)
         self.curr_bet = 0
         self.curr_deal.clear()
         dealer.reset_curr_deal()
-        print(f"Blackjack! You win ${the_won_cash} :)")
